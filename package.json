@@ -1,0 +1,38 @@
+{
+  "name": "file-validation",
+  "version": "1.0.0",
+  "description": "To test the two different file using Jest",
+  "main": "index.js",
+  "dependencies": {
+    "csv-parser": "^2.3.3",
+    "csv-writer": "^1.6.0",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "jest": "^25.2.2",
+    "jest-html-reporters": "^2.0.3",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testSequencer": "./CustomSequencer.js",
+    "verbose": true,
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "report.html",
+          "expand": true
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "test-dev": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lister",
+  "license": "ISC"
+}

@@ -1,0 +1,6 @@
+parent_integration_id,parent_role,child_id,child_role,term_id
+Yolanda.Gold,Primary Advisor,Egon.Adam,Student,202002
+Yolanda.Gold,General Advisor,allStudents,Student,Ongoing
+Egon.Adam,Athletic Coach,W_LAX_2014FAE32,student,2014FA
+Egon.Adam,Primary Advisor,lgilmore,student,2014SP
+John.doe,Primary Advisor,lgilmore,student,2014SP

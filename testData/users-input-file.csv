@@ -1,0 +1,11 @@
+integration_id,family_name,middle_name,given_name,email,secondary_email,student_id,user_id,gender,birth_dt,b_phone,m_phone,available_ind,assign_student_role,allow_login,home_city,home_state,home_zip,home_county,user_timezone
+Yolanda.Gold,gold,test1,yolanda,testuser01@gmail.com,testuser11@gmail.com,C0018990,ygold,F,2001-02-20,17035551212,17035551212,1,1,1,dublin,ohio,43016,United States,America/New_York
+Egon.Adam,adam,test2,egon,testuser02@gmail.com,testuser12@gmail.com,C0018991,eadam,FEMALE,2000-07-22,(123) 444-1234,(123) 444-1234,0,0,0,dublin,ohio,43016,United States,America/Adak
+Egontest1,Mr '-adam_test,test3,egon,testuser03@gmail.com,testuser13@gmail.com,C0018992,egontest1,M,2000-07-22,(123) 444-1234,123-444-1234,0,0,0,dublin,ohio,43016,United States,America/Adak
+Egontest2,Mr¨adam,test4,egon,,testuser14@gmail.com,C0018993,egontest2,UNKNOWN,,,,1,,,,,,,
+Egontest3,áááá,test5,egon,testuser05@gmail.com,testuser15@gmail.com,C0018994,egontest3,FEMALE,1965-01-01,(123) 444-1234,(123) 444-1234,0,0,0,,,,,
+Egontest4,Çéâèùïü,test6,egon,testuser07@gmail.com,testuser16@gmail.com,C0018995,egontest4,FEMALE,1965-01-01,,,0,,,,,,,
+SARS_Counselor,SARS,,Counselor,SARS_Counselor@thisisnotvalid.com,,SARS_Counselor,SARS_Counselor@thisisnotvalid.com,M,2002-12-31,111-111-1152,222-222-2263,1,0,1,dublin,ohio,43016,United States,America/Adak
+Yolanda.Gold,Atom,,Carol,Test1864@thisisnotvalid.com,,Test1864,Test1864@thisisnotvalid.com,F,2000-10-08,111-111-1111,222-222-2222,1,1,0,dublin,ohio,43016,United States,America/Adak
+Test5435,Aims,,Susmitha,Test5435@thisisnotvalid.com,,Test5435,Test5435@thisisnotvalid.com,F,2000-04-29,111-111-1112,222-222-2223,1,1,1,dublin,ohio,43016,United States,America/Adak
+Test8954,Jones,,Fred,Test8954@thisisnotvalid.com,,Test8954,Test8954@thisisnotvalid.com,M,2000-04-17,111-111-1113,222-222-2224,1,1,1,dublin,ohio,43016,United States,America/Adak

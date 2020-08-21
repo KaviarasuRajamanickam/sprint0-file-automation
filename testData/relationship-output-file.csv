@@ -1,0 +1,6 @@
+parent_integration_id,parent_role,child_id,child_role,term_id
+i_1234_1,Primary Advisor,i_1234_2,Student,202002
+i_1234_1,General Advisor,allStudents,Student,Ongoing
+i_1234_2,Athletic Coach,W_LAX_2014FAE32,student,2014FA
+i_1234_2,Primary Advisor,lgilmore,student,2014SP
+John.doe,Primary Advisor,lgilmore,student,2014SP
