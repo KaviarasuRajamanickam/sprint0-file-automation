@@ -78,7 +78,6 @@ let verifyDateFormat = (outputDate) => {
     return dateRegex.test(outputDate)
 }
 
-
 let dataInfo = async (inputFile, outputFile) => {
     return {
         inputData: await getDataRow(inputFile),
