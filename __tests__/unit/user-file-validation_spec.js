@@ -1,10 +1,13 @@
 /* eslint-disable no-undef */
 const fileValidator = require('../../controllers/file-validation')
+const positiveUserScenario = ['testData/users-input-file.csv', 'testData/users-output-file.csv']
+// eslint-disable-next-line no-unused-vars
+const largeRecordsUserScenario = ['testData/users-input-large-file.csv', 'testData/users-output-large-file.csv']
 let userInfo, inputRecords, outputRecords
 
 describe('To assert the datas present in the users file', () => {
   beforeAll(async () => {
-    userInfo = await fileValidator.getAnonymizeDataWithIID('testData/users-input-file.csv', 'testData/users-output-file.csv')
+    userInfo = await fileValidator.getAnonymizeDataWithIID(positiveUserScenario)
     outputRecords = userInfo.userData.outputData.records
     inputRecords = userInfo.userData.inputData.records
   })
@@ -169,7 +172,6 @@ describe('To assert the datas present in the users file', () => {
 
   it('Verify whether the gender,available_ind,assign_student_role,allow_login, and user_timezone column values are being correctly shown as per input User.txt file without anonymization', () => {
     let userFieldStatus = true
-    const catchFieldError = []
     const dataFields = fileValidator.getUserAnonymizeInfo().non_anonymize_fields
     outputRecords.forEach(function (currentRecord, outputIndex) {
       dataFields.forEach(function (currentField, index) {
@@ -177,12 +179,9 @@ describe('To assert the datas present in the users file', () => {
           currentRecord[currentField] === '' ? expect(currentRecord[currentField]).toBe('') : expect(currentRecord[currentField]).toBe(inputRecords[outputIndex][currentField])
         } catch (err) {
           userFieldStatus = false
-          catchFieldError.push(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input value does not match with the output value [' + currentRecord[currentField] + ']')
+          console.error(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input value does not match with the output value [' + currentRecord[currentField] + ']')
         }
       })
-    })
-    catchFieldError.forEach((ele) => {
-      console.error(ele)
     })
     expect(userFieldStatus).toBe(true)
   })
@@ -194,7 +193,7 @@ describe('To assert the datas present in the users file', () => {
         currentRecord.home_city === '' ? expect(currentRecord.home_city).toBe('') : expect(currentRecord.home_city).toBe(fileValidator.getUserAnonymizeInfo().home_city)
       } catch (err) {
         homeCityStatus = false
-        console.error(currentRecord.home_city, ' - homeCityStatus is not shown correctly, Expected Home City is ', fileValidator.getUserAnonymizeInfo().home_city)
+        console.error(currentRecord.home_city, ' - home_city is not shown correctly, Expected Home City is ', fileValidator.getUserAnonymizeInfo().home_city)
       }
     })
     expect(homeCityStatus).toBe(true)
@@ -240,90 +239,50 @@ describe('To assert the datas present in the users file', () => {
   })
 
   it('Verify whether the max character value is correctly shown when the columns middle_name, home_city, home_state, and home_county are entered with max characters', () => {
-    let maxCharStatus = true; const catchFieldError = []
+    let maxCharStatus = true
     const dataFields = fileValidator.getUserAnonymizeInfo().max_characters_fields
-    outputRecords.forEach(function (currentRecord, index) {
-      dataFields.forEach(function (currentField, outputIndex) {
+    outputRecords.forEach(function (currentRecord) {
+      dataFields.forEach(function (currentField) {
         try {
           currentRecord[currentField] === '' ? expect(currentRecord[currentField]).toBe('') : expect(currentRecord[currentField]).toBe(fileValidator.getUserAnonymizeInfo()[currentField])
         } catch (err) {
           maxCharStatus = false
-          catchFieldError.push(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input value does not match with the output value [' + currentRecord[currentField] + ']')
+          console.error(currentRecord[currentField] + ' - [' + currentField + '] is not shown correctly. expected value is [' + fileValidator.getUserAnonymizeInfo()[currentField] + ']')
         }
       })
-    })
-    catchFieldError.forEach((ele) => {
-      console.error(ele)
     })
     expect(maxCharStatus).toBe(true)
   })
 
-  it('Verify whether the actual records from input file are correctly spooled in the output File', () => {
-    let actualRecordStatus = true; const catchFieldError = []
-    const dataFields = fileValidator.getUserAnonymizeInfo().anonymize_fields
-    expect(userInfo.userData.outputData.header[0]).toEqual(userInfo.userData.inputData.header[0])
-    outputRecords.forEach(function (currentRecord, index) {
-      dataFields.forEach(function (currentField, outputIndex) {
-        try {
-          currentRecord[currentField] === ''
-            ? expect(currentRecord[currentField]).toBe('')
-            : currentField === 'integration_id'
-              ? expect(currentRecord.integration_id).toBe(userInfo.userIntegrationData[index].masked_integration_id)
-              : currentField === 'birth_dt'
-                ? expect(fileValidator.verifyDateInRange(fileValidator.getUserAnonymizeInfo()[currentField].min_date, fileValidator.getUserAnonymizeInfo()[currentField].max_date, currentRecord[currentField], inputRecords[index][currentField])).toBeTruthy()
-                : expect(currentRecord[currentField]).toBe(fileValidator.getUserAnonymizeInfo()[currentField])
-        } catch (err) {
-          actualRecordStatus = false
-          catchFieldError.push(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input value does not match with the output value [' + currentRecord[currentField] + ']')
-        }
-      })
-    })
-    catchFieldError.forEach((ele) => {
-      console.error(ele)
-    })
-    expect(actualRecordStatus).toBe(true)
-  })
-
+  /** Generic Validations **/
   it('Verify whether the number of records are correctly matched between the input file and output file.', () => {
-    let recordCountStatus = true
-    try {
-      expect(outputRecords.length).toEqual(inputRecords.length)
-    } catch (Err) {
-      recordCountStatus = false
-      console.error(inputRecords.length, 'Input file record count not matched with output file record count', outputRecords.length)
-    }
-    expect(recordCountStatus).toBe(true)
+    expect(outputRecords.length).toEqual(inputRecords.length)
   })
 
   it('Verify whether the Headers are correctly displayed in the output file.', () => {
-    let headerStatus = true
-    try {
-      expect(userInfo.userData.outputData.header[0]).toEqual(userInfo.userData.inputData.header[0])
-    } catch (Err) {
-      headerStatus = false
-      console.error(userInfo.userData.outputData.header[0], ' Output file header not shown as per Input file header ', userInfo.userData.inputData.header[0])
-    }
-    expect(headerStatus).toBe(true)
+    expect(userInfo.userData.outputData.header[0]).toEqual(userInfo.userData.inputData.header[0])
   })
 
   it('Verify that the output file column with empty value is correctly shown based on the empty value in the input file.', () => {
     let emptyColumnStatus = true
     const userFields = fileValidator.getUserAnonymizeInfo().anonymize_fields.concat(fileValidator.getUserAnonymizeInfo().non_anonymize_fields)
-    userFields.forEach(function (currentRecord) {
-      try {
-        if (inputRecords.currentRecord === '') {
-          expect(inputRecords.currentRecord).toBe('')
+    inputRecords.forEach((currentRecord, index) => {
+      userFields.forEach(currentField => {
+        try {
+          if (outputRecords[index][currentField] === '') {
+            expect(outputRecords[index][currentField]).toBe('')
+          }
+        } catch (err) {
+          emptyColumnStatus = false
+          console.error(currentField + ' - [' + currentRecord[currentField] + '] input value does not match with the output value [' + outputRecords[index][currentField] + ']')
         }
-      } catch (err) {
-        emptyColumnStatus = false
-        console.error(currentRecord, ' Output file column with empty value not shown correctly based on the empty value in the input file')
-      }
+      })
     })
     expect(emptyColumnStatus).toBe(true)
   })
 
   it('Verify that the file column with numeric value is correctly shown based on the numeric value present in the input file.', () => {
-    let numericValStatus = true; const catchFieldError = []
+    let numericValStatus = true
     const dataFields = fileValidator.getUserAnonymizeInfo().non_anonymize_fields
     outputRecords.forEach(function (currentRecord, index) {
       dataFields.forEach(function (currentField, outputIndex) {
@@ -333,12 +292,9 @@ describe('To assert the datas present in the users file', () => {
             : expect(currentRecord[currentField]).toBe(outputRecords[index][currentField])
         } catch (err) {
           numericValStatus = false
-          catchFieldError.push(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input numeric value does not match with the output numeric value [' + currentRecord[currentField] + ']')
+          console.error(dataFields[index] + ' - [' + inputRecords[outputIndex][currentField] + '] input numeric value does not match with the output numeric value [' + currentRecord[currentField] + ']')
         }
       })
-    })
-    catchFieldError.forEach((ele) => {
-      console.error(ele)
     })
     expect(numericValStatus).toBe(true)
   })

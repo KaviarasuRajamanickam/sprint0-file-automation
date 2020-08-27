@@ -73,21 +73,27 @@ const verifyDateInRange = (fromDate, toDate, dateToCheck, inputDate) => {
   return new Date(dateToCheck) >= new Date(fromDate) && new Date(dateToCheck) <= new Date(toDate) && new Date(dateToCheck) !== inputDate
 }
 
-const verifyDateFormat = (outputDate) => {
+const verifyDateFormat = (inputDate) => {
   const dateRegex = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/
-  return dateRegex.test(outputDate)
+  return dateRegex.test(inputDate)
 }
 
-const dataInfo = async (inputFile, outputFile) => {
+const verifyTimestamp = (inputDate) => {
+  const timestampRegex = /^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})$/
+  return timestampRegex.test(inputDate)
+}
+
+const dataInfo = async (inputFile) => {
   return {
-    inputData: await getDataRow(inputFile),
-    outputData: await getDataRow(outputFile)
+    inputData: await getDataRow(inputFile[0]),
+    outputData: await getDataRow(inputFile[1])
   }
 }
 
-const getAnonymizeDataWithIID = async (inputFile, outputFile) => {
+const getAnonymizeDataWithIID = async (inputFile) => {
   const userIntegrationData = []
-  const userData = await dataInfo(inputFile, outputFile)
+  const dataInputFiles = [...inputFile]
+  const userData = await dataInfo(dataInputFiles)
   let duplicateCount = 0
   let outputData = {}
   for (let i = 0; i < userData.inputData.records.length; i++) {
@@ -128,6 +134,7 @@ module.exports = {
   getDataRow,
   verifyDateInRange,
   verifyDateFormat,
+  verifyTimestamp,
   dataInfo,
   getAnonymizeDataWithIID
 }

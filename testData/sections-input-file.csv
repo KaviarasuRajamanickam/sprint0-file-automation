@@ -1,3 +1,4 @@
 integration_id,course_section_name,course_section_id,term_id,course_integration_id,start_dt,end_dt,course_section_delivery,maximum_enrollment_count,credit_hours,registration_call_number
 UNIV-SRF101-602-202002,Canvas Course,UNIV-SRF101-602-202002,202002,SRF101,2020-08-10,2021-01-10,03,50,3.5,31533
 UNIV-FRSH101-911-201601,Test freshmen-Spring 16,UNIV-FRSH101-911-201601,201601,FRSH101,2020-08-10,2021-01-10,99,60,4.5,31534
+UNIV-FRSH101-911-201601,Test freshmen-Spring 16,UNIV-FRSH101-911-201601,201601,,2020-08-10,2021-01-10,99,60,4.5,
